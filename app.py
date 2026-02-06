@@ -27,7 +27,7 @@ def main():
 
     # ===== Main =====
     st.title("Sonas アップサンプラー")
-    st.subheader("400Hz -> 1,000Hz")
+    st.subheader("サンプリング周波数：400Hz -> 1,000Hz")
 
     if uploaded_file is None:
         st.info("左のサイドバーからCSVファイルをアップロードしてください。")
