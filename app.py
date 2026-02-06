@@ -14,7 +14,7 @@ from viz.timeseries import build_xyz_timeseries_figure
 
 
 def main():
-    st.set_page_config(page_title="Sonas アップサンプラー", layout="wide")
+    st.set_page_config(page_title="Sonas Upsampler", layout="wide")
 
     # ===== Sidebar =====
     st.sidebar.header("ファイル操作")
@@ -26,7 +26,7 @@ def main():
     download_placeholder = st.sidebar.empty()
 
     # ===== Main =====
-    st.title("アップサンプラー")
+    st.title("Sonas アップサンプラー")
     st.subheader("400Hz -> 1,000Hz")
 
     if uploaded_file is None:
