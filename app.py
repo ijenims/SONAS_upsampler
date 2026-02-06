@@ -14,7 +14,7 @@ from viz.timeseries import build_xyz_timeseries_figure
 
 
 def main():
-    st.set_page_config(page_title="アップサンプラー", layout="wide")
+    st.set_page_config(page_title="Sonas アップサンプラー", layout="wide")
 
     # ===== Sidebar =====
     st.sidebar.header("ファイル操作")
@@ -48,7 +48,7 @@ def main():
             fs=400,
             title="Input Data (400Hz)"
         )
-        st.plotly_chart(fig_in, use_container_width=True)
+        st.plotly_chart(fig_in, width="stretch")
 
         # --- Resample ---
         x_u, y_u, z_u = upsample_xyz_linear(x, y, z)
@@ -69,7 +69,7 @@ def main():
             fs=1000,
             title="Output Data (1000Hz)"
         )
-        st.plotly_chart(fig_out, use_container_width=True)
+        st.plotly_chart(fig_out, width="stretch")
 
         # ダウンロードボタン
         download_placeholder.download_button(
@@ -78,6 +78,9 @@ def main():
             file_name=out_name.name,
             mime="text/csv"
         )
+
+        # ★追加：ダウンロードファイル名表示
+        st.sidebar.caption(f"保存ファイル名：{out_name.name}")
 
         # 注意書き
         st.markdown("### 取扱上の注意")
