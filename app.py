@@ -79,7 +79,7 @@ def main():
             mime="text/csv"
         )
 
-        # ★追加：ダウンロードファイル名表示
+        # ダウンロードファイル名表示
         st.sidebar.caption(f"保存ファイル名：{out_name.name}")
 
         # 注意書き
