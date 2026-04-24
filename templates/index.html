@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sonas Upsampler (HTML)</title>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #f5f7fb;
+        color: #1f2937;
+      }
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      .card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      h1 {
+        margin: 0 0 8px;
+      }
+      .sub {
+        margin: 0 0 16px;
+        color: #4b5563;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .btn {
+        background: #2563eb;
+        color: #fff;
+        border: none;
+        padding: 10px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .btn:hover {
+        background: #1d4ed8;
+      }
+      .msg-ok {
+        color: #065f46;
+      }
+      .msg-err {
+        color: #991b1b;
+      }
+      #fig-in, #fig-out {
+        width: 100%;
+        min-height: 360px;
+      }
+      ul {
+        margin: 8px 0 0 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h1>Sonas アップサンプラー</h1>
+        <p class="sub">サンプリング周波数：400Hz -> 1,000Hz</p>
+
+        <form method="post" enctype="multipart/form-data" class="row">
+          <input type="file" name="file" accept=".csv" required />
+          <button class="btn" type="submit">変換する</button>
+        </form>
+      </div>
+
+      {% if success %}
+      <div class="card">
+        <p class="msg-ok">{{ success }}</p>
+        <a
+          class="btn"
+          href="data:text/csv;base64,{{ download_b64 }}"
+          download="{{ download_name }}"
+        >
+          変換後CSVをダウンロード
+        </a>
+        <p>保存ファイル名：{{ download_name }}</p>
+      </div>
+      {% endif %}
+
+      {% if error %}
+      <div class="card">
+        <p class="msg-err">{{ error }}</p>
+      </div>
+      {% endif %}
+
+      {% if fig_in_json %}
+      <div class="card">
+        <h2>Input Data (400Hz)</h2>
+        <div id="fig-in"></div>
+      </div>
+      {% endif %}
+
+      {% if fig_out_json %}
+      <div class="card">
+        <h2>Output Data (1000Hz)</h2>
+        <div id="fig-out"></div>
+      </div>
+      {% endif %}
+
+      <div class="card">
+        <h2>取扱上の注意</h2>
+        <ul>
+          {% for note in notes %}
+          <li>{{ note }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    {% if fig_in_json %}
+    <script>
+      const figIn = {{ fig_in_json | safe }};
+      Plotly.newPlot("fig-in", figIn.data, figIn.layout, { responsive: true });
+    </script>
+    {% endif %}
+    {% if fig_out_json %}
+    <script>
+      const figOut = {{ fig_out_json | safe }};
+      Plotly.newPlot("fig-out", figOut.data, figOut.layout, { responsive: true });
+    </script>
+    {% endif %}
+  </body>
+</html>
